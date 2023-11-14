@@ -11,6 +11,7 @@ int main(int argc, char** argv) {
         printf("Usage: %s <height> <width>\n", argv[0]);
         return 1;
     }
+    printf("Press <ENTER> to advance to the next time-step.\n");
     srand((unsigned int)time(0));
     size_t height = convert_string_to_size_t(argv[1]);
     size_t width = convert_string_to_size_t(argv[2]);
