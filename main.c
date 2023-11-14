@@ -43,13 +43,13 @@ int main(int argc, char** argv) {
 
 int continue_generating() {
     char c;
-    scanf_s("%c", &c, 1);
+    scanf("%c", &c);
     return c == '\n';
 }
 
 size_t convert_string_to_size_t(char* str) {
     int result;
-    int succ = sscanf_s(str, "%d", &result);
+    int succ = sscanf(str, "%d", &result);
     if (succ == 0 || result <= 0) {
         return 0;
     }
