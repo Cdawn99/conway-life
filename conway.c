@@ -4,21 +4,11 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-typedef struct grid {
-    size_t height;
-    size_t width;
-    char grid[];
-} grid_t;
-
-static size_t coordinate(size_t h, size_t w, size_t width) {
-    return h*width + w;
-}
-
-static int mod(int x, int n) {
+static inline int mod(int x, int n) {
     return (x%n + n)%n;
 }
 
-static char compute_next_cell_state(grid_t* current, size_t h_coordinate, size_t w_coordinate) {
+static char compute_next_cell_state(grid_t *current, size_t h_coordinate, size_t w_coordinate) {
     int live_neighbours = 0;
     for (int i = -1; i <= 1; i++) {
         for (int j = -1; j <= 1; j++) {
@@ -35,12 +25,12 @@ static char compute_next_cell_state(grid_t* current, size_t h_coordinate, size_t
     return live_neighbours == 2 || live_neighbours == 3 ? '#' : ' ';
 }
 
-grid_t* init_grid(size_t height, size_t width) {
+grid_t *init_grid(size_t height, size_t width) {
     if (height == 0 || width == 0) {
         return NULL;
     }
 
-    grid_t* new_grid = malloc(sizeof *new_grid + height*width);
+    grid_t *new_grid = malloc(sizeof *new_grid + height*width);
     if (!new_grid) {
         return NULL;
     }
@@ -54,11 +44,11 @@ grid_t* init_grid(size_t height, size_t width) {
     return new_grid;
 }
 
-void delete_grid(grid_t* grid) {
+void delete_grid(grid_t *grid) {
     free(grid);
 }
 
-void print_grid(grid_t* grid) {
+void print_grid(grid_t *grid) {
     if (!grid) {
         puts("NULL grid");
         return;
@@ -72,7 +62,7 @@ void print_grid(grid_t* grid) {
     }
 }
 
-void compute_next_state(grid_t* current, grid_t* next) {
+void compute_next_state(grid_t *current, grid_t *next) {
     assert(current->width == next->width && current->height == next->height);
 
     for (size_t h = 0; h < current->height; h++) {
@@ -82,8 +72,8 @@ void compute_next_state(grid_t* current, grid_t* next) {
     }
 }
 
-void swap_grids(grid_t** grid1, grid_t** grid2) {
-    grid_t* temp = *grid1;
+void swap_grids(grid_t **grid1, grid_t **grid2) {
+    grid_t *temp = *grid1;
     *grid1 = *grid2;
     *grid2 = temp;
 }

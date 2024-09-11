@@ -10,7 +10,7 @@ int continue_generating() {
     return c == '\n';
 }
 
-size_t convert_string_to_size_t(char* str) {
+size_t convert_string_to_size_t(char *str) {
     int result;
     int succ = sscanf(str, "%d", &result);
     if (succ != 1 || result <= 0) {
@@ -19,7 +19,7 @@ size_t convert_string_to_size_t(char* str) {
     return (size_t)result;
 }
 
-int main(int argc, char** argv) {
+int main(int argc, char **argv) {
     srand(time(NULL));
 
     if (argc != 3) {
@@ -34,13 +34,13 @@ int main(int argc, char** argv) {
         return 1;
     }
 
-    grid_t* grid1 = init_grid(height, width);
+    grid_t *grid1 = init_grid(height, width);
     if (!grid1) {
         fprintf(stderr, "ERROR: Failed to allocate grid1\n");
         return 1;
     }
 
-    grid_t* grid2 = init_grid(height, width);
+    grid_t *grid2 = init_grid(height, width);
     if (!grid2) {
         delete_grid(grid1);
         fprintf(stderr, "ERROR: Failed to allocate grid2\n");
