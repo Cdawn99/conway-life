@@ -2,6 +2,8 @@
 
 #include "raylib.h"
 
+#include <stdio.h>
+
 #define GRID_HEIGHT_CELLS 40
 #define GRID_WIDTH_CELLS 40
 
@@ -24,7 +26,17 @@ void display_grid(grid_t *grid) {
 
 int main(void) {
     grid_t *current = init_grid(GRID_HEIGHT_CELLS, GRID_WIDTH_CELLS);
+    if (!current) {
+        fprintf(stderr, "ERROR: Failed to allocate grid\n");
+        return 1;
+    }
+
     grid_t *next = init_grid(GRID_HEIGHT_CELLS, GRID_WIDTH_CELLS);
+    if (!next) {
+        delete_grid(current);
+        fprintf(stderr, "ERROR: Failed to allocate grid\n");
+        return 1;
+    }
 
     InitWindow(1600, 900, "Conway's Game of Life");
     SetWindowState(FLAG_WINDOW_RESIZABLE);
