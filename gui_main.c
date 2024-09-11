@@ -2,10 +2,11 @@
 
 #include "raylib.h"
 
+#include <assert.h>
 #include <stdio.h>
 
 #define GRID_HEIGHT_CELLS 40
-#define GRID_WIDTH_CELLS 40
+#define GRID_WIDTH_CELLS 71
 
 void display_grid(grid_t *grid) {
     Rectangle cell = {
@@ -24,7 +25,34 @@ void display_grid(grid_t *grid) {
     }
 }
 
+int reset_state(grid_t **grid1, grid_t **grid2) {
+    if (!grid1 && !*grid1 && !grid2 && !*grid2) {
+        fprintf(stderr, "ERROR: A grid is NULL");
+        return 1;
+    }
+
+    delete_grid(*grid1);
+    delete_grid(*grid2);
+
+    *grid1 = init_grid(GRID_HEIGHT_CELLS, GRID_WIDTH_CELLS);
+    if (!*grid1) {
+        fprintf(stderr, "ERROR: Failed to allocate grid\n");
+        return 1;
+    }
+
+    *grid2 = init_grid(GRID_HEIGHT_CELLS, GRID_WIDTH_CELLS);
+    if (!*grid2) {
+        delete_grid(*grid1);
+        fprintf(stderr, "ERROR: Failed to allocate grid\n");
+        return 1;
+    }
+
+    return 0;
+}
+
 int main(void) {
+    int status = 0;
+
     grid_t *current = init_grid(GRID_HEIGHT_CELLS, GRID_WIDTH_CELLS);
     if (!current) {
         fprintf(stderr, "ERROR: Failed to allocate grid\n");
@@ -44,6 +72,12 @@ int main(void) {
 
     int frame_delay = 10;
     while (!WindowShouldClose()) {
+        if (IsKeyPressed(KEY_R)) {
+            status = reset_state(&current, &next);
+            if (status == 1) {
+                break;
+            }
+        }
         BeginDrawing();
             ClearBackground(RAYWHITE);
             display_grid(current);
@@ -63,5 +97,5 @@ int main(void) {
     delete_grid(current);
     delete_grid(next);
 
-    return 0;
+    return status;
 }
