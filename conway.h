@@ -1,12 +1,13 @@
 #ifndef CONWAY_H
 #define CONWAY_H
 
+#include <stdbool.h>
 #include <stddef.h>
 
 typedef struct grid {
     size_t height;
     size_t width;
-    char grid[];
+    bool grid[];
 } grid_t;
 
 /**
@@ -21,12 +22,6 @@ grid_t *init_grid(size_t height, size_t width);
  * Free the given grid.
  */
 void delete_grid(grid_t *grid);
-
-/**
- * Print grid to stdout.
- * Prints "NULL grid" when NULL is passed.
- */
-void print_grid(grid_t *grid);
 
 /**
  * Compute the current grid's next state.

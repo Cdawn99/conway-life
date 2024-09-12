@@ -4,6 +4,21 @@
 #include <stdlib.h>
 #include <time.h>
 
+void print_grid(grid_t *grid) {
+    if (!grid) {
+        puts("NULL grid");
+        return;
+    }
+
+    for (size_t h = 0; h < grid->height; h++) {
+        for(size_t w = 0; w < grid->width; w++) {
+            char c = grid->grid[coordinate(h, w, grid->width)] ? '#' : ' ';
+            putchar(c);
+        }
+        putchar('\n');
+    }
+}
+
 int continue_generating() {
     char c;
     scanf("%c", &c);

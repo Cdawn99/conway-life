@@ -15,7 +15,7 @@ void display_grid(grid_t *grid) {
 
     for (size_t y = 0; y < grid->height; y++) {
         for (size_t x = 0; x < grid->width; x++) {
-            Color cell_colour = grid->grid[coordinate(y, x, grid->width)] == '#' ? BLACK : WHITE;
+            Color cell_colour = grid->grid[coordinate(y, x, grid->width)] ? BLACK : WHITE;
             DrawRectangleRec(cell, cell_colour);
             cell.x += cell.width;
         }
