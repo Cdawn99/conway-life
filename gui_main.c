@@ -2,7 +2,6 @@
 
 #include "raylib.h"
 
-#include <assert.h>
 #include <stdio.h>
 
 #define GRID_HEIGHT_CELLS 40
@@ -71,6 +70,7 @@ int main(void) {
     SetTargetFPS(60);
 
     int frame_delay = 10;
+    bool playing = true;
     while (!WindowShouldClose()) {
         if (IsKeyPressed(KEY_R)) {
             status = reset_state(&current, &next);
@@ -78,17 +78,25 @@ int main(void) {
                 break;
             }
         }
+
+        if (IsKeyPressed(KEY_SPACE)) {
+            playing = !playing;
+        }
+
         BeginDrawing();
             ClearBackground(RAYWHITE);
             display_grid(current);
+            // DrawFPS(10, 10);
         EndDrawing();
 
-        if (frame_delay > 0) {
-            frame_delay--;
-        } else {
-            compute_next_state(current, next);
-            swap_grids(&current, &next);
-            frame_delay = 10;
+        if (playing) {
+            if (frame_delay > 0) {
+                frame_delay--;
+            } else {
+                compute_next_state(current, next);
+                swap_grids(&current, &next);
+                frame_delay = 10;
+            }
         }
     }
 
