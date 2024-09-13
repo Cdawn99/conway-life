@@ -4,10 +4,12 @@
 #include <stdbool.h>
 #include <stddef.h>
 
+typedef bool cell_t;
+
 typedef struct grid {
     size_t height;
     size_t width;
-    bool grid[];
+    cell_t grid[];
 } grid_t;
 
 /**

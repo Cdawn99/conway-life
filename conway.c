@@ -28,7 +28,7 @@ grid_t *init_grid(size_t height, size_t width) {
         return NULL;
     }
 
-    grid_t *new_grid = malloc(sizeof *new_grid + height*width);
+    grid_t *new_grid = malloc(sizeof *new_grid + height*width*sizeof(cell_t));
     if (!new_grid) {
         return NULL;
     }

@@ -3,6 +3,7 @@
 #include "raylib.h"
 
 #include <stdio.h>
+#include <string.h>
 
 #define GRID_HEIGHT_CELLS 40
 #define GRID_WIDTH_CELLS 71
@@ -86,19 +87,14 @@ int main(void) {
             }
         }
 
+        // Clear.
+        if (IsKeyPressed(KEY_C)) {
+            memset(current->grid, 0, current->width*current->height);
+        }
+
         // Pause.
         if (IsKeyPressed(KEY_SPACE)) {
             playing = !playing;
-        }
-
-        // Speed up.
-        if (IsKeyDown(KEY_RIGHT) && max_frame_delay > MINIMUM_MAX_FRAME_DELAY) {
-            max_frame_delay--;
-        }
-
-        // Speed down.
-        if (IsKeyDown(KEY_LEFT) && max_frame_delay < MAXIMUM_MAX_FRAME_DELAY) {
-            max_frame_delay++;
         }
 
         // Set/Unset cell on click while paused.
@@ -110,6 +106,16 @@ int main(void) {
             Vector2 mouse = GetMousePosition();
             size_t cell_index = coordinate(mouse.y / cell_size.y, mouse.x / cell_size.x, current->width);
             current->grid[cell_index] = !current->grid[cell_index];
+        }
+
+        // Speed up.
+        if (IsKeyDown(KEY_RIGHT) && max_frame_delay > MINIMUM_MAX_FRAME_DELAY) {
+            max_frame_delay--;
+        }
+
+        // Speed down.
+        if (IsKeyDown(KEY_LEFT) && max_frame_delay < MAXIMUM_MAX_FRAME_DELAY) {
+            max_frame_delay++;
         }
 
         BeginDrawing();
