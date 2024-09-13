@@ -77,6 +77,7 @@ int main(void) {
     int frame_delay = max_frame_delay;
     bool playing = true;
     while (!WindowShouldClose()) {
+        // Reset.
         if (IsKeyPressed(KEY_R)) {
             max_frame_delay = DEFAULT_MAX_FRAME_DELAY;
             status = reset_state(&current, &next);
@@ -85,16 +86,30 @@ int main(void) {
             }
         }
 
+        // Pause.
         if (IsKeyPressed(KEY_SPACE)) {
             playing = !playing;
         }
 
+        // Speed up.
         if (IsKeyDown(KEY_RIGHT) && max_frame_delay > MINIMUM_MAX_FRAME_DELAY) {
             max_frame_delay--;
         }
 
+        // Speed down.
         if (IsKeyDown(KEY_LEFT) && max_frame_delay < MAXIMUM_MAX_FRAME_DELAY) {
             max_frame_delay++;
+        }
+
+        // Set/Unset cell on click while paused.
+        if (IsMouseButtonPressed(MOUSE_BUTTON_LEFT) && !playing) {
+            Vector2 cell_size = {
+                .x = (float)GetScreenWidth() / current->width,
+                .y = (float)GetScreenHeight() / current->height,
+            };
+            Vector2 mouse = GetMousePosition();
+            size_t cell_index = coordinate(mouse.y / cell_size.y, mouse.x / cell_size.x, current->width);
+            current->grid[cell_index] = !current->grid[cell_index];
         }
 
         BeginDrawing();
