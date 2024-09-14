@@ -77,7 +77,54 @@ int main(void) {
     int max_frame_delay = DEFAULT_MAX_FRAME_DELAY;
     int frame_delay = max_frame_delay;
     bool playing = true;
+    bool display_help = false;
     while (!WindowShouldClose()) {
+        // Help.
+        if (IsKeyPressed(KEY_H)) {
+            display_help = !display_help;
+        }
+        if (display_help) {
+            Rectangle help_box = {
+                .width = GetScreenWidth() * 0.5f,
+                .height = GetScreenHeight() * 0.75f,
+            };
+            help_box.x += help_box.width * 0.5f;
+            help_box.y += help_box.height / 6.0f;
+
+            BeginDrawing();
+                ClearBackground(RAYWHITE);
+                display_grid(current);
+                DrawRectangleRec(help_box, LIGHTGRAY);
+
+                Vector2 text_pos = {
+                    .x = help_box.x + 10,
+                    .y = help_box.y + 10,
+                };
+                int font_size = help_box.height / 15;
+                DrawText("Controls:", text_pos.x, text_pos.y, font_size + 10, BLACK);
+                text_pos.y += font_size + 10;
+                DrawText("Help: H", text_pos.x, text_pos.y, font_size, BLACK);
+                text_pos.y += font_size;
+                DrawText("Reset: R", text_pos.x, text_pos.y, font_size, BLACK);
+                text_pos.y += font_size;
+                DrawText("Clear: C", text_pos.x, text_pos.y, font_size, BLACK);
+                text_pos.y += font_size;
+                DrawText("Pause: Space", text_pos.x, text_pos.y, font_size, BLACK);
+                text_pos.y += font_size;
+                DrawText("Speed up: Right arrow", text_pos.x, text_pos.y, font_size, BLACK);
+                text_pos.y += font_size;
+                DrawText("Speed down: Left arrow", text_pos.x, text_pos.y, font_size, BLACK);
+                text_pos.y += font_size;
+                text_pos.y += font_size;
+                DrawText("When paused, you can click on", text_pos.x, text_pos.y, font_size, BLACK);
+                text_pos.y += font_size;
+                DrawText("the grid to set/unset", text_pos.x, text_pos.y, font_size, BLACK);
+                text_pos.y += font_size;
+                DrawText("the cells.", text_pos.x, text_pos.y, font_size, BLACK);
+            EndDrawing();
+            continue;
+        }
+
         // Reset.
         if (IsKeyPressed(KEY_R)) {
             max_frame_delay = DEFAULT_MAX_FRAME_DELAY;
